@@ -2,6 +2,7 @@ package com.qunincey.Controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.qunincey.Dto.User;
+import com.qunincey.exception.UserNotExistException;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -49,6 +50,8 @@ public class UserController {
 
     @PostMapping()
     public User create(@Valid @RequestBody User user, BindingResult errors){
+
+
         if (errors.hasErrors()){
             errors.getAllErrors().stream().forEach(error -> System.out.println(error.toString()));
         }
