@@ -43,6 +43,8 @@ public class UserController {
     @RequestMapping(value = "/{id:\\d+}",method = RequestMethod.GET)
     @JsonView(User.UserDetailView.class)
     public User getInfo(@PathVariable String id){
+
+        System.out.println("进入getInfo服务");
         User user = new User();
         user.setUsername("tom");
         return user;
