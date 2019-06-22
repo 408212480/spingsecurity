@@ -1,13 +1,17 @@
 package com.qunincey.security.core.validate.code;
 
 
+import com.qunincey.security.core.properties.SecurityProperties;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -18,6 +22,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @program: spingsecurity
@@ -25,8 +31,7 @@ import java.io.IOException;
  * @author: qiuxu
  * @create: 2019-06-21 13:50
  **/
-
-public class ValidateCodeFilter extends OncePerRequestFilter {
+public class ValidateCodeFilter extends OncePerRequestFilter implements InitializingBean {
 
     @Getter
     @Setter
@@ -34,18 +39,48 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 
     private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
 
+    private Set<String> urls = new HashSet<>();
+
+    @Getter
+    @Setter
+    private SecurityProperties securityProperties;
+
+    private AntPathMatcher pathMatcher = new AntPathMatcher();
+
+    @Override
+    public void afterPropertiesSet() throws ServletException {
+        super.afterPropertiesSet();
+        String[] config = StringUtils.splitByWholeSeparatorPreserveAllTokens(securityProperties.getCode().getImage().getUrl(),",");
+        for (String configUrl:
+             config) {
+            urls.add(configUrl);
+        }
+        urls.add("/authention/form");
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-        if (StringUtils.equals("/authention/form",httpServletRequest.getRequestURI())
-        && StringUtils.endsWithIgnoreCase(httpServletRequest.getMethod(),"post")){
+
+        boolean action = false;
+        for (String url:
+             urls) {
+            if (pathMatcher.match(url,httpServletRequest.getRequestURI())){
+                action = true;
+            }
+
+        }
+
+        if (action){
+
             try {
                 validate(new ServletWebRequest(httpServletRequest));
             }catch (ValidateCodeException e){
                 authenticationFailureHandler.onAuthenticationFailure(httpServletRequest,httpServletResponse,e);
+                return;
             }
-        }else{
-            filterChain.doFilter(httpServletRequest,httpServletResponse);
         }
+        filterChain.doFilter(httpServletRequest,httpServletResponse);
+
     }
 
     private void validate(ServletWebRequest servletWebRequest) throws ServletRequestBindingException {

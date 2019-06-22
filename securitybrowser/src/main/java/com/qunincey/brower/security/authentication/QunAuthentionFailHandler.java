@@ -1,6 +1,7 @@
 package com.qunincey.brower.security.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.qunincey.brower.security.support.SimpleResponse;
 import com.qunincey.security.core.properties.LoginType;
 import com.qunincey.security.core.properties.SecurityProperties;
 import org.slf4j.Logger;
@@ -44,7 +45,7 @@ public class QunAuthentionFailHandler extends SimpleUrlAuthenticationFailureHand
         if (LoginType.JSON.equals(securityProperties.getBrowser().getLoginType())){
             httpServletResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             httpServletResponse.setContentType("application/json,charset-UTF-8");
-            httpServletResponse.getWriter().write(objectMapper.writeValueAsString(e));
+            httpServletResponse.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(e.getMessage())));
         }else {
             super.onAuthenticationFailure(httpServletRequest,httpServletResponse,e);
         }

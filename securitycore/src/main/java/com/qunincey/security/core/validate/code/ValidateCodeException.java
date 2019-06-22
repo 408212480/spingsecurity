@@ -15,10 +15,6 @@ public class ValidateCodeException extends AuthenticationException {
 
     private static final long serialVersionUID = 1167377453102513176L;
 
-    public ValidateCodeException(String msg, Throwable t) {
-        super(msg, t);
-    }
-
     public ValidateCodeException(String msg) {
         super(msg);
     }
