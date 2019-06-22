@@ -43,6 +43,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 
     @Getter
     @Setter
+    @Autowired
     private SecurityProperties securityProperties;
 
     private AntPathMatcher pathMatcher = new AntPathMatcher();

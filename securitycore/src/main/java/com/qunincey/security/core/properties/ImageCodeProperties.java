@@ -13,8 +13,7 @@ public class ImageCodeProperties {
 
     private int width = 67;
     private int height = 67;
-    private int length = 4  ;
+    private int length = 4;
     private int expireIn = 60;
-
-    private String url;
+    private String url ="/authention/form";
 }
