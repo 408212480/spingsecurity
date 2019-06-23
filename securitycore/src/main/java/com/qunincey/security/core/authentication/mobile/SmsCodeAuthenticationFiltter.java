@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 public class SmsCodeAuthenticationFiltter extends AbstractAuthenticationProcessingFilter {
 
     public static final String QUN_FROM_MOBLIE_KEY = "mobile";
-    private String mobileParameter = "username";
+    private String mobileParameter = "mobile";
 
     /*
     * 是不是只处理post请求

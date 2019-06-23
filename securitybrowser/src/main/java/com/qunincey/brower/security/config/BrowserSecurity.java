@@ -47,7 +47,7 @@ public class BrowserSecurity extends WebSecurityConfigurerAdapter {
         smsCodeFilter.setSecurityProperties(securityProperties);
         smsCodeFilter.afterPropertiesSet();
 
-        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+        http.addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin()
                 .loginPage("/authentication/require")

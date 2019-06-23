@@ -13,7 +13,7 @@ public class ImageCodeProperties extends SmsCodeProperties{
 
     private int width = 67;
     private int height = 67;
-    private String url ="/authention/form";
+    private String url="/authention/form" ;
 
     public ImageCodeProperties() {
         setLength(4);
