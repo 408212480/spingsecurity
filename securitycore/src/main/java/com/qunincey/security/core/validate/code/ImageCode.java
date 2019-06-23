@@ -13,21 +13,17 @@ import java.time.LocalDateTime;
  * @create: 2019-06-20 22:11
  **/
 @Data
-public class ImageCode {
+public class ImageCode extends ValidateCode {
 
     private BufferedImage image;
 
-    private String code;
-
-    private LocalDateTime expireTime;
-
-    public ImageCode(BufferedImage image, String code, int expireIn) {
+    public ImageCode(String code, LocalDateTime expireTime, BufferedImage image) {
+        super(code, expireTime);
         this.image = image;
-        this.code = code;
-        this.expireTime = LocalDateTime.now().plusSeconds(expireIn);
     }
 
-    public boolean isExpried() {
-        return LocalDateTime.now().isAfter(expireTime);
+    public ImageCode(String code, int expireIn,BufferedImage image){
+        super(code, expireIn);
+        this.image = image;
     }
 }
