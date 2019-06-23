@@ -1,6 +1,7 @@
 package com.qunincey.security.core.validate.code;
 
 import com.qunincey.security.core.properties.SecurityProperties;
+import com.qunincey.security.core.validate.code.image.ImageCodeGenerator;
 import com.qunincey.security.core.validate.code.sms.DefaultSmsCodeSender;
 import com.qunincey.security.core.validate.code.sms.SmsCodeSender;
 import org.springframework.beans.factory.annotation.Autowired;

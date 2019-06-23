@@ -1,5 +1,6 @@
-package com.qunincey.security.core.validate.code;
+package com.qunincey.security.core.validate.code.image;
 
+import com.qunincey.security.core.validate.code.ValidateCode;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

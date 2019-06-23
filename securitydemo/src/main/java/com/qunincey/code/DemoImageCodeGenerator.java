@@ -1,8 +1,7 @@
 package com.qunincey.code;
 
-import com.qunincey.security.core.validate.code.ImageCode;
+import com.qunincey.security.core.validate.code.image.ImageCode;
 import com.qunincey.security.core.validate.code.ValidateCodeGenerator;
-import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.ServletWebRequest;
 
 /**
