@@ -1,6 +1,8 @@
 package com.qunincey.brower.security.config;
 
 import com.qunincey.brower.security.authentication.QunAuthentionSuccessHandler;
+import com.qunincey.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
+import com.qunincey.security.core.authentication.mobile.SmsCodeFilter;
 import com.qunincey.security.core.properties.SecurityProperties;
 import com.qunincey.security.core.validate.code.ValidateCodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,9 @@ public class BrowserSecurity extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthenticationFailureHandler qunAuthentionFailHandler;
 
+    @Autowired
+    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -37,7 +42,13 @@ public class BrowserSecurity extends WebSecurityConfigurerAdapter {
         validateCodeFilter.setSecurityProperties(securityProperties);
         validateCodeFilter.afterPropertiesSet();
 
+        SmsCodeFilter smsCodeFilter = new SmsCodeFilter();
+        smsCodeFilter.setAuthenticationFailureHandler(qunAuthentionFailHandler);
+        smsCodeFilter.setSecurityProperties(securityProperties);
+        smsCodeFilter.afterPropertiesSet();
+
         http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin()
                 .loginPage("/authentication/require")
                 .loginProcessingUrl("/authention/form")
@@ -49,6 +60,7 @@ public class BrowserSecurity extends WebSecurityConfigurerAdapter {
                         "/code/*").permitAll()
                 .anyRequest()
                 .authenticated()
-        .and().csrf().disable();
+        .and().csrf().disable()
+        .apply(smsCodeAuthenticationSecurityConfig);
     }
 }
