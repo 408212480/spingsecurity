@@ -18,7 +18,7 @@ import sun.security.util.SecurityConstants;
  * @author zhailiang
  *
  */
-@Component("smsCodeProcessor")
+@Component("smsValidateCodeProcessor")
 public class SmsCodeProcessor extends AbstractValidateCodeProcessor<ValidateCode> {
 
 	/**

@@ -1,5 +1,6 @@
 package com.qunincey.security.core.validate.code;
 
+import com.qunincey.security.core.properties.SecurityConstants;
 import com.qunincey.security.core.validate.code.image.ImageCode;
 import com.qunincey.security.core.validate.code.sms.SmsCodeSender;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +29,11 @@ import java.util.Map;
 public class ValidateCodeController {
 
     @Autowired
-    private Map<String, ValidateCodeProcessor> validateCodeGenerators;
+    private ValidateCodeProcessorHolder validateCodeProcessorHolder;
 
-    @GetMapping("/code/{type}")
-    public void createCode(@PathVariable("type") String type,HttpServletRequest request,HttpServletResponse response) throws Exception {
-        validateCodeGenerators.get(type+"CodeProcessor").create(new ServletWebRequest(request,response));
+    @GetMapping(SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX +"/{type}")
+    public void createCode(@PathVariable String type,HttpServletRequest request,HttpServletResponse response) throws Exception {
+        validateCodeProcessorHolder.findValidateCodeProcessor(type).create(new ServletWebRequest(request,response));
 
     }
 

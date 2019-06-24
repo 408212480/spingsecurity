@@ -14,7 +14,7 @@ import java.util.Objects;
  * @author: qiuxu
  * @create: 2019-06-23 12:55
  **/
-@Component("imageCodeProcessor")
+@Component("imageValidateCodeProcessor")
 public class ImageCodeProcessor extends AbstractValidateCodeProcessor<ImageCode> {
     @Override
     protected void send(ServletWebRequest request, ImageCode imageCode) throws Exception {

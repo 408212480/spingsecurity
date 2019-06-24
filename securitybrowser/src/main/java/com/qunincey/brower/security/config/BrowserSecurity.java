@@ -1,6 +1,5 @@
 package com.qunincey.brower.security.config;
 
-import com.qunincey.brower.security.authentication.QunAuthentionSuccessHandler;
 import com.qunincey.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.qunincey.security.core.authentication.mobile.SmsCodeFilter;
 import com.qunincey.security.core.properties.SecurityProperties;
@@ -34,30 +33,25 @@ public class BrowserSecurity extends WebSecurityConfigurerAdapter {
     @Autowired
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
+    @Autowired
+    ValidateCodeFilter codeFilter;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        codeFilter.setAuthenticationFailureHandler(qunAuthentionFailHandler);
+        codeFilter.setSecurityProperties(securityProperties);
+        codeFilter.afterPropertiesSet();
 
-        ValidateCodeFilter validateCodeFilter = new ValidateCodeFilter();
-        validateCodeFilter.setAuthenticationFailureHandler(qunAuthentionFailHandler);
-        validateCodeFilter.setSecurityProperties(securityProperties);
-        validateCodeFilter.afterPropertiesSet();
-
-        SmsCodeFilter smsCodeFilter = new SmsCodeFilter();
-        smsCodeFilter.setAuthenticationFailureHandler(qunAuthentionFailHandler);
-        smsCodeFilter.setSecurityProperties(securityProperties);
-        smsCodeFilter.afterPropertiesSet();
-
-        http.addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+        http.addFilterBefore(codeFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin()
                 .loginPage("/authentication/require")
-                .loginProcessingUrl("/authention/form")
+                .loginProcessingUrl("/authentication/form")
                 .successHandler(qunAuthentionSuccessHandler)
                 .failureHandler(qunAuthentionFailHandler)
                 .and()
                 .authorizeRequests()
                 .antMatchers("/authentication/require",securityProperties.getBrowser().getLoginPage(),
-                        "/code/*").permitAll()
+                        "/code/image").permitAll()
                 .anyRequest()
                 .authenticated()
         .and().csrf().disable()
