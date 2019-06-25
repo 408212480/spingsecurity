@@ -44,7 +44,7 @@ public class QunAuthentionFailHandler extends SimpleUrlAuthenticationFailureHand
 
         if (LoginType.JSON.equals(securityProperties.getBrowser().getLoginType())){
             httpServletResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            httpServletResponse.setContentType("application/json,charset-UTF-8");
+            httpServletResponse.setContentType("application/json;charset=UTF-8");
             httpServletResponse.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(e.getMessage())));
             System.out.println("错误信息"+e.getMessage());
             System.out.println("错误信息"+e);

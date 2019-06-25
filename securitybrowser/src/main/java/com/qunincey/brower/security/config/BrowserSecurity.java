@@ -2,8 +2,10 @@ package com.qunincey.brower.security.config;
 
 import com.qunincey.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.qunincey.security.core.authentication.mobile.SmsCodeFilter;
+import com.qunincey.security.core.properties.SecurityConstants;
 import com.qunincey.security.core.properties.SecurityProperties;
 import com.qunincey.security.core.validate.code.ValidateCodeFilter;
+import com.qunincey.security.core.validate.code.ValidateCodeSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -34,27 +36,29 @@ public class BrowserSecurity extends WebSecurityConfigurerAdapter {
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
     @Autowired
-    ValidateCodeFilter codeFilter;
+    private ValidateCodeSecurityConfig validateCodeSecurityConfig;
+
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        codeFilter.setAuthenticationFailureHandler(qunAuthentionFailHandler);
-        codeFilter.setSecurityProperties(securityProperties);
-        codeFilter.afterPropertiesSet();
 
-        http.addFilterBefore(codeFilter, UsernamePasswordAuthenticationFilter.class)
+
+        http.apply(validateCodeSecurityConfig)
+                .and()
+                .apply(smsCodeAuthenticationSecurityConfig)
+                .and()
                 .formLogin()
-                .loginPage("/authentication/require")
-                .loginProcessingUrl("/authentication/form")
+                .loginPage(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
+                .loginProcessingUrl(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FORM)
                 .successHandler(qunAuthentionSuccessHandler)
                 .failureHandler(qunAuthentionFailHandler)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/authentication/require",securityProperties.getBrowser().getLoginPage(),
-                        "/code/image").permitAll()
+                .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,securityProperties.getBrowser().getLoginPage(),
+                        "/code/*").permitAll()
                 .anyRequest()
                 .authenticated()
-        .and().csrf().disable()
-        .apply(smsCodeAuthenticationSecurityConfig);
+        .and().csrf().disable();
     }
 }

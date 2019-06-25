@@ -70,8 +70,6 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 
         ValidateCodeType validateCodeType=getValidateCodeType(httpServletRequest);
 
-
-
         if (validateCodeType!=null){
             logger.info("校验请求(" + httpServletRequest.getRequestURI() + ")中的验证码,验证码类型" + validateCodeType);
 
