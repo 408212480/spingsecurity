@@ -2,6 +2,8 @@ package com.qunincey.security.core.social.qq.connet;
 
 import com.qunincey.security.core.social.qq.QQ;
 import com.qunincey.security.core.social.qq.QQUserInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.social.connect.ApiAdapter;
 import org.springframework.social.connect.ConnectionValues;
 import org.springframework.social.connect.UserProfile;
@@ -16,6 +18,8 @@ import java.io.IOException;
  **/
 
 public class QQAdapter implements ApiAdapter<QQ> {
+
+    private Logger logger = LoggerFactory.getLogger(QQAdapter.class);
 
     @Override
     public boolean test(QQ qq) {
@@ -32,6 +36,7 @@ public class QQAdapter implements ApiAdapter<QQ> {
             connectionValues.setImageUrl(userInfo.getFigureurl());
             connectionValues.setProfileUrl(null);
             connectionValues.setProviderUserId(userInfo.getOpenId());
+            logger.info("获取到的值"+userInfo.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }

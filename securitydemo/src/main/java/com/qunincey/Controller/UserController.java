@@ -7,12 +7,16 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.ServletWebRequest;
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +31,14 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
+    @Autowired
+    private ProviderSignInUtils providerSignInUtils;
+
     @PostMapping("/regist")
-    public void regist(User user){
-        return ;
+    public void regist(User user, HttpServletRequest request){
+
+        String userId = user.getUsername();
+        providerSignInUtils.doPostSignUp(userId,new ServletWebRequest(request));
     }
 
     @GetMapping(value = "/me")

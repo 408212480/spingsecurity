@@ -43,4 +43,19 @@ public class QQUserInfo {
     private String level;
 
     private String is_yellow_year_vip;
+
+    private String is_lost;
+
+    private String province;
+
+    private String city;
+
+    private String year;
+
+    private String constellation;
+
+    private String figureurl_qq;
+
+    private String figureurl_type;
+
 }
