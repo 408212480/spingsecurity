@@ -20,4 +20,6 @@ public class BrowserProperties {
 
     private LoginType loginType= LoginType.JSON;
 
+    private String signUpUrl = "/imooc-signUp.html";
+
 }

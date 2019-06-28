@@ -27,6 +27,11 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
+    @PostMapping("/regist")
+    public void regist(User user){
+        return ;
+    }
+
     @GetMapping(value = "/me")
     public Object getCurrentUser(){
         return SecurityContextHolder.getContext().getAuthentication().getDetails();

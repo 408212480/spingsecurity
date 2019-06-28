@@ -13,6 +13,7 @@ import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
 import org.springframework.social.connect.web.ConnectController;
+import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.social.security.AuthenticationNameUserIdSource;
 import org.springframework.social.security.SpringSocialConfigurer;
 
@@ -42,6 +43,7 @@ public class SocialConfig extends SocialConfigurerAdapter {
     @Bean
     public SpringSocialConfigurer qunSocialSecurityConfig(){
         QunSpringSocialConfigurer qunSpringSocialConfigurer = new QunSpringSocialConfigurer(securityProperties.getSocial().getFilterProcessUrl());
+        qunSpringSocialConfigurer.signupUrl(securityProperties.getBrowser().getSignUpUrl());
         return qunSpringSocialConfigurer;
     }
 
@@ -55,6 +57,11 @@ public class SocialConfig extends SocialConfigurerAdapter {
             ConnectionFactoryLocator connectionFactoryLocator,
             ConnectionRepository connectionRepository) {
         return new ConnectController(connectionFactoryLocator, connectionRepository);
+    }
+
+    @Bean
+    public ProviderSignInUtils providerSignInUtils(ConnectionFactoryLocator connectionFactoryLocator){
+        return new ProviderSignInUtils(connectionFactoryLocator,getUsersConnectionRepository(connectionFactoryLocator));
     }
 
 }
