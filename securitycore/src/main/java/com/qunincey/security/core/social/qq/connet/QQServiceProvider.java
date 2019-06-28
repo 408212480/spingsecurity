@@ -1,11 +1,10 @@
 package com.qunincey.security.core.social.qq.connet;
 
-import com.qunincey.security.core.social.qq.QQ;
-import com.qunincey.security.core.social.qq.QQImpl;
+import com.qunincey.security.core.social.qq.api.QQ;
+import com.qunincey.security.core.social.qq.api.QQImpl;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.social.oauth2.AbstractOAuth2ServiceProvider;
-import org.springframework.social.oauth2.OAuth2Template;
 
 /**
  * @program: spingsecurity

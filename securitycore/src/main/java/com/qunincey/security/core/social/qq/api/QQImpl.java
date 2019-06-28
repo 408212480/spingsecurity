@@ -1,10 +1,9 @@
-package com.qunincey.security.core.social.qq;
+package com.qunincey.security.core.social.qq.api;
 
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
 import org.springframework.social.oauth2.TokenStrategy;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 

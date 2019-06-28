@@ -1,6 +1,6 @@
 package com.qunincey.security.core.social.qq.connet;
 
-import com.qunincey.security.core.social.qq.QQ;
+import com.qunincey.security.core.social.qq.api.QQ;
 import org.springframework.social.connect.support.OAuth2ConnectionFactory;
 
 /**

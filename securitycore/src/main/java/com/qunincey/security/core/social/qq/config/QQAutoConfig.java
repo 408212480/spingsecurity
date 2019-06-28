@@ -7,13 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.social.UserIdSource;
 import org.springframework.social.config.annotation.ConnectionFactoryConfigurer;
 import org.springframework.social.config.annotation.SocialConfigurerAdapter;
 import org.springframework.social.connect.ConnectionFactory;
 import org.springframework.social.connect.ConnectionFactoryLocator;
+import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.social.connect.UsersConnectionRepository;
+import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
 import org.springframework.social.security.AuthenticationNameUserIdSource;
+
+import javax.sql.DataSource;
 
 /**
  * @program: spingsecurity
@@ -27,6 +32,12 @@ public class QQAutoConfig extends SocialConfigurerAdapter {
 
     @Autowired
     private SecurityProperties securityProperties;
+
+    @Autowired(required = false)
+    private ConnectionSignUp connectionSignUp;
+
+    @Autowired
+    private DataSource dataSource;
 
     @Override
     public void addConnectionFactories(ConnectionFactoryConfigurer configurer,
@@ -49,7 +60,11 @@ public class QQAutoConfig extends SocialConfigurerAdapter {
 
     @Override
     public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
-        return null;
+        JdbcUsersConnectionRepository repository = new JdbcUsersConnectionRepository(dataSource,connectionFactoryLocator, Encryptors.noOpText());
+        if (connectionSignUp!=null){
+            repository.setConnectionSignUp(connectionSignUp);
+        }
+        return repository;
     }
 
 
