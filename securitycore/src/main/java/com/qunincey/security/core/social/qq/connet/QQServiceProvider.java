@@ -2,9 +2,8 @@ package com.qunincey.security.core.social.qq.connet;
 
 import com.qunincey.security.core.social.qq.QQ;
 import com.qunincey.security.core.social.qq.QQImpl;
-import org.springframework.social.oauth1.AbstractOAuth1ServiceProvider;
-import org.springframework.social.oauth1.OAuth1Operations;
-import org.springframework.social.oauth1.OAuth1Template;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.social.oauth2.AbstractOAuth2ServiceProvider;
 import org.springframework.social.oauth2.OAuth2Template;
 
@@ -17,9 +16,12 @@ import org.springframework.social.oauth2.OAuth2Template;
 
 public class QQServiceProvider extends AbstractOAuth2ServiceProvider<QQ> {
 
+    @Getter
+    @Setter
     private String appId;
 
     private static final String URL_AUTHORIZE = "https://graph.qq.com/oauth2.0/authorize";
+
     private static final String URL_ACCESS_TOKEN = "https://graph.qq.com/oauth2.0/token";
 
     public QQServiceProvider(String appId,String appSecret) {

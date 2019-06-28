@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public interface QQ {
 
-    public QQUserInfo getUserInfo();
+    public QQUserInfo getUserInfo()  throws IOException;
 
 
 }

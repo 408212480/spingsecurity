@@ -1,6 +1,8 @@
 package com.qunincey.security.core.properties;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @program: spingsecurity
@@ -11,9 +13,9 @@ import lombok.Data;
 @Data
 public class SocialProperties {
 
-    private String appId;
-
-    private String appSecret;
+    @Getter
+    @Setter
+    private String filterProcessUrl = "/auth";
 
     private QQProperties qq = new QQProperties();
 }

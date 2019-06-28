@@ -1,10 +1,7 @@
 package com.qunincey.security.core.social.qq.connet;
 
 import com.qunincey.security.core.social.qq.QQ;
-import org.springframework.social.connect.ApiAdapter;
-import org.springframework.social.connect.support.OAuth1ConnectionFactory;
 import org.springframework.social.connect.support.OAuth2ConnectionFactory;
-import org.springframework.social.oauth1.OAuth1ServiceProvider;
 
 /**
  * @program: spingsecurity
