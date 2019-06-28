@@ -49,6 +49,8 @@ public class QQAutoConfig extends SocialConfigurerAdapter {
 
     @Override
     public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
-        return super.getUsersConnectionRepository(connectionFactoryLocator);
+        return null;
     }
+
+
 }

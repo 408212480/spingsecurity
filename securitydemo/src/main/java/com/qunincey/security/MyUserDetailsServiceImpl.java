@@ -35,9 +35,9 @@ public class MyUserDetailsServiceImpl implements UserDetailsService, SocialUserD
     }
 
     @Override
-    public SocialUserDetails loadUserByUserId(String s) throws UsernameNotFoundException {
-        logger.info("社交登录登录用户名"+ s);
-        return buildUser(s);
+    public SocialUserDetails loadUserByUserId(String userId) throws UsernameNotFoundException {
+        logger.info("社交登录登录用户名"+ userId);
+        return getUserDetails(userId);
     }
 
     private SocialUserDetails buildUser(String userId) {
@@ -49,5 +49,16 @@ public class MyUserDetailsServiceImpl implements UserDetailsService, SocialUserD
         return new SocialUser(userId, password,
                 true, true, true, true,
                 AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER"));
+    }
+
+    /*
+    * 假实现
+    * */
+    private SocialUser getUserDetails(String username) {
+        String password = passwordEncoder.encode("123456");
+        logger.info("数据库密码{}", password);
+        SocialUser admin = new SocialUser(username,password, true, true, true, true,
+                AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
+        return admin;
     }
 }
