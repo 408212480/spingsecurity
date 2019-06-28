@@ -62,7 +62,7 @@ public class BrowserSecurity extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,securityProperties.getBrowser().getLoginPage(),
-                        "/code/*","/auth/*").permitAll()
+                        "/code/*","/auth/*","/signin").permitAll()
                 .anyRequest()
                 .authenticated()
         .and().csrf().disable();
