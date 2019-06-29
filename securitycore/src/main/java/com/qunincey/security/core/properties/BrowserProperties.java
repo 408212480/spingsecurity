@@ -32,6 +32,6 @@ public class BrowserProperties {
     /**
      * 退出成功时跳转的url，如果配置了，则跳到指定的url，如果没配置，则返回json数据。
      */
-    private String signOutUrl;
+    private String signOutUrl = "/imooc-logout.html";
 
 }

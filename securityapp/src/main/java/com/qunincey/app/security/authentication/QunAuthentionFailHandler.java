@@ -1,9 +1,9 @@
-package com.qunincey.brower.security.authentication;
+package com.qunincey.app.security.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.qunincey.security.core.support.SimpleResponse;
 import com.qunincey.security.core.properties.LoginType;
 import com.qunincey.security.core.properties.SecurityProperties;
+import com.qunincey.security.core.support.SimpleResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

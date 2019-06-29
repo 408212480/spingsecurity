@@ -5,7 +5,7 @@ package com.qunincey.brower.security.logout;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.qunincey.brower.security.support.SimpleResponse;
+import com.qunincey.security.core.support.SimpleResponse;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,12 +1,11 @@
 package com.qunincey.brower.security.controller;
 
-import com.qunincey.brower.security.support.SimpleResponse;
+import com.qunincey.security.core.support.SimpleResponse;
 import com.qunincey.brower.security.support.SocialUserInfo;
 import com.qunincey.security.core.properties.SecurityProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;

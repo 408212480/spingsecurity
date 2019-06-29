@@ -4,7 +4,7 @@
 package com.qunincey.brower.security.session;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.qunincey.brower.security.support.SimpleResponse;
+import com.qunincey.security.core.support.SimpleResponse;
 import com.qunincey.security.core.properties.SecurityProperties;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;

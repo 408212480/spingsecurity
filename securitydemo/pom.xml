@@ -13,9 +13,15 @@
     <artifactId>securitydemo</artifactId>
 
     <dependencies>
+        <!--<dependency>-->
+            <!--<groupId>com.qunincey</groupId>-->
+            <!--<artifactId>securitybrowser</artifactId>-->
+            <!--<version>${security.core.version}</version>-->
+        <!--</dependency>-->
+
         <dependency>
             <groupId>com.qunincey</groupId>
-            <artifactId>securitybrowser</artifactId>
+            <artifactId>securityapp</artifactId>
             <version>${security.core.version}</version>
         </dependency>
 
