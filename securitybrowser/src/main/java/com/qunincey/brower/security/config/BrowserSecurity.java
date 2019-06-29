@@ -1,5 +1,7 @@
 package com.qunincey.brower.security.config;
 
+import com.qunincey.brower.security.session.QunExpiredSessionStrategy;
+import com.qunincey.brower.security.session.QunInvalidSessionStrategy;
 import com.qunincey.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.qunincey.security.core.authentication.mobile.SmsCodeFilter;
 import com.qunincey.security.core.properties.SecurityConstants;
@@ -13,6 +15,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.session.InvalidSessionStrategy;
+import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 import org.springframework.social.security.SpringSocialConfigurer;
 
 /**
@@ -42,6 +46,12 @@ public class BrowserSecurity extends WebSecurityConfigurerAdapter {
     @Autowired
     private SpringSocialConfigurer qunSocialSecurityConfig;
 
+    @Autowired
+    private SessionInformationExpiredStrategy sessionInformationExpiredStrategy;
+
+    @Autowired
+    private InvalidSessionStrategy invalidSessionStrategy;
+
 
 
     @Override
@@ -60,9 +70,17 @@ public class BrowserSecurity extends WebSecurityConfigurerAdapter {
                 .successHandler(qunAuthentionSuccessHandler)
                 .failureHandler(qunAuthentionFailHandler)
                 .and()
+                .sessionManagement()
+                .invalidSessionStrategy(invalidSessionStrategy)
+                .invalidSessionUrl(SecurityConstants.DEFAULT_SESSION_INVALID_URL)
+                .maximumSessions(securityProperties.getBrowser().getSession().getMaximumSessions())
+                .maxSessionsPreventsLogin(securityProperties.getBrowser().getSession().isMaxSessionsPreventsLogin())
+                .expiredSessionStrategy(sessionInformationExpiredStrategy)
+                .and()
+                .and()
                 .authorizeRequests()
                 .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,securityProperties.getBrowser().getLoginPage(),
-                        "/code/*","/auth/*",securityProperties.getBrowser().getSignUpUrl(),"/user/regist").permitAll()
+                        SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*","/auth/*",securityProperties.getBrowser().getSignUpUrl(),"/user/regist",SecurityConstants.DEFAULT_SESSION_INVALID_URL).permitAll()
                 .anyRequest()
                 .authenticated()
         .and().csrf().disable();

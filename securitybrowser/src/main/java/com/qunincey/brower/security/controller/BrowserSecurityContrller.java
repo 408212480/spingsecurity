@@ -78,4 +78,11 @@ public class BrowserSecurityContrller {
         userInfo.setHeading(connection.getImageUrl());
         return  userInfo;
     }
+
+    @GetMapping("/session/invalid")
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public SimpleResponse sessionInvalid(){
+        String message = "session失效，请重新登录";
+        return new SimpleResponse(message);
+    }
 }
