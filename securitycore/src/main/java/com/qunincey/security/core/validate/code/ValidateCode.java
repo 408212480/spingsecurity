@@ -3,6 +3,7 @@ package com.qunincey.security.core.validate.code;
 import lombok.Data;
 
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
  * @create: 2019-06-20 22:11
  **/
 @Data
-public class ValidateCode {
+public class ValidateCode implements Serializable {
 
     private String code;
 
