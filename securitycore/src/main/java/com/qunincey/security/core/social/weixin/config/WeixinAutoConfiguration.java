@@ -6,6 +6,7 @@ package com.qunincey.security.core.social.weixin.config;
 
 import com.qunincey.security.core.properties.SecurityProperties;
 import com.qunincey.security.core.properties.WeixinProperties;
+import com.qunincey.security.core.social.view.QunConnectView;
 import com.qunincey.security.core.social.weixin.connect.WeixinConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -51,4 +52,10 @@ public class WeixinAutoConfiguration extends SocialConfigurerAdapter {
 									   Environment environment) {
 		configurer.addConnectionFactory(createConnectionFactory());
 	}
+
+    @Bean({"connect/weixinConnect", "connect/weixinConnected"})
+    @ConditionalOnMissingBean(name = "weixinConnectedView")
+    public View weixinConnectedView() {
+        return new QunConnectView();
+    }
 }
