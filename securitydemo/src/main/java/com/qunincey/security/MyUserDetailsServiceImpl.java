@@ -58,7 +58,7 @@ public class MyUserDetailsServiceImpl implements UserDetailsService, SocialUserD
         String password = passwordEncoder.encode("123456");
         logger.info("数据库密码{}", password);
         SocialUser admin = new SocialUser(username,password, true, true, true, true,
-                AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
+                AuthorityUtils.commaSeparatedStringToAuthorityList("admin,ROLE_USER"));
         return admin;
     }
 }
