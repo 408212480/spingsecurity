@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.session.InvalidSessionStrategy;
 import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 import org.springframework.social.security.SpringSocialConfigurer;
@@ -52,6 +53,9 @@ public class BrowserSecurity extends WebSecurityConfigurerAdapter {
     @Autowired
     private InvalidSessionStrategy invalidSessionStrategy;
 
+    @Autowired
+    private LogoutSuccessHandler logoutSuccessHandler;
+
 
 
     @Override
@@ -65,24 +69,30 @@ public class BrowserSecurity extends WebSecurityConfigurerAdapter {
                 .apply(qunSocialSecurityConfig)
                 .and()
                 .formLogin()
-                .loginPage(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
-                .loginProcessingUrl(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FORM)
-                .successHandler(qunAuthentionSuccessHandler)
-                .failureHandler(qunAuthentionFailHandler)
+                    .loginPage(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
+                    .loginProcessingUrl(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FORM)
+                    .successHandler(qunAuthentionSuccessHandler)
+                    .failureHandler(qunAuthentionFailHandler)
                 .and()
                 .sessionManagement()
-                .invalidSessionStrategy(invalidSessionStrategy)
-                .invalidSessionUrl(SecurityConstants.DEFAULT_SESSION_INVALID_URL)
-                .maximumSessions(securityProperties.getBrowser().getSession().getMaximumSessions())
-                .maxSessionsPreventsLogin(securityProperties.getBrowser().getSession().isMaxSessionsPreventsLogin())
-                .expiredSessionStrategy(sessionInformationExpiredStrategy)
+                    .invalidSessionStrategy(invalidSessionStrategy)
+                    .invalidSessionUrl(SecurityConstants.DEFAULT_SESSION_INVALID_URL)
+                    .maximumSessions(securityProperties.getBrowser().getSession().getMaximumSessions())
+                    .maxSessionsPreventsLogin(securityProperties.getBrowser().getSession().isMaxSessionsPreventsLogin())
+                    .expiredSessionStrategy(sessionInformationExpiredStrategy)
                 .and()
+                .and()
+                .logout()
+                    .logoutUrl("/signOut")
+                    .logoutSuccessHandler(logoutSuccessHandler)
+                    .deleteCookies("JSESSIONID")
                 .and()
                 .authorizeRequests()
-                .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,securityProperties.getBrowser().getLoginPage(),
-                        SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*","/auth/*",securityProperties.getBrowser().getSignUpUrl(),"/user/regist",SecurityConstants.DEFAULT_SESSION_INVALID_URL).permitAll()
-                .anyRequest()
-                .authenticated()
+                    .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,securityProperties.getBrowser().getLoginPage(),
+                        SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*","/auth/*",securityProperties.getBrowser().getSignUpUrl(),"/user/regist",SecurityConstants.DEFAULT_SESSION_INVALID_URL,securityProperties.getBrowser().getSignOutUrl())
+                .permitAll()
+                    .anyRequest()
+                    .authenticated()
         .and().csrf().disable();
     }
 }

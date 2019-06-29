@@ -4,6 +4,7 @@
 package com.qunincey.brower;
 
 
+import com.qunincey.brower.security.logout.QunLogoutSuccessHandler;
 import com.qunincey.brower.security.session.QunExpiredSessionStrategy;
 import com.qunincey.brower.security.session.QunInvalidSessionStrategy;
 import com.qunincey.security.core.properties.SecurityProperties;
@@ -48,15 +49,15 @@ public class BrowserSecurityBeanConfig {
 		return new QunExpiredSessionStrategy(securityProperties);
 	}
 	
-//	/**
-//	 * 退出时的处理策略配置
-//	 *
-//	 * @return
-//	 */
-//	@Bean
-//	@ConditionalOnMissingBean(LogoutSuccessHandler.class)
-//	public LogoutSuccessHandler logoutSuccessHandler(){
-//		return new ImoocLogoutSuccessHandler(securityProperties.getBrowser().getSignOutUrl());
-//	}
+	/**
+	 * 退出时的处理策略配置
+	 *
+	 * @return
+	 */
+	@Bean
+	@ConditionalOnMissingBean(LogoutSuccessHandler.class)
+	public LogoutSuccessHandler logoutSuccessHandler(){
+		return new QunLogoutSuccessHandler(securityProperties.getBrowser().getSignOutUrl());
+	}
 	
 }
