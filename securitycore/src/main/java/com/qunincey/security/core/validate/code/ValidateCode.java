@@ -1,5 +1,6 @@
 package com.qunincey.security.core.validate.code;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.awt.image.BufferedImage;
@@ -18,6 +19,8 @@ public class ValidateCode implements Serializable {
     private String code;
 
     private LocalDateTime expireTime;
+
+
 
     public ValidateCode(String code, LocalDateTime expireTime) {
         this.code = code;

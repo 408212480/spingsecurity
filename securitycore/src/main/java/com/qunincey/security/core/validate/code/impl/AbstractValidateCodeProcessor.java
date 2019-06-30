@@ -28,6 +28,9 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
     @Autowired
     private Map<String, ValidateCodeGenerator> validateCodeGenerators;
 
+    @Autowired
+    private ValidateCodeRepository validateCodeRepository;
+
     @Override
     public void create(ServletWebRequest request) throws Exception {
         C validateCode = generate(request);
@@ -37,8 +40,9 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
 
     private void save(ServletWebRequest request, C validateCode) {
         ValidateCode code = new ValidateCode(validateCode.getCode(), validateCode.getExpireTime());
-        sessionStrategy.setAttribute(request,SESSION_KEY_PREFIX+getProcessorType(request).toUpperCase(),code);
+        validateCodeRepository.save(request,code,getValidateCodeType());
     }
+
 
     /**
     * @Description: 生成校验码
@@ -60,17 +64,6 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
     private String getProcessorType(ServletWebRequest request) {
         return StringUtils.substringAfter(request.getRequest().getRequestURI(),"/code/");
     }
-
-//    /**
-//     * 保存校验码
-//     *
-//     * @param request
-//     * @param validateCode
-//     */
-//    private void save(ServletWebRequest request, C validateCode) {
-//        ValidateCode code = new ValidateCode(validateCode.getCode(), validateCode.getExpireTime());
-//        validateCodeRepository.save(request, code, getValidateCodeType(request));
-//    }
 
     /**
      * 发送校验码，由子类实现
@@ -98,7 +91,7 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
 
         ValidateCodeType codeType = getValidateCodeType();
 
-        C codeInSession = (C) sessionStrategy.getAttribute(request, ValidateCodeProcessor.SESSION_KEY_PREFIX+codeType);
+        C codeInSession = (C) validateCodeRepository.get(request, codeType);
 
         String codeInRequest;
         try {
@@ -117,7 +110,7 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
         }
 
         if (codeInSession.isExpried()) {
-            sessionStrategy.removeAttribute(request, ValidateCodeProcessor.SESSION_KEY_PREFIX+codeType);
+            validateCodeRepository.remove(request, codeType);
             throw new ValidateCodeException(codeType + "验证码已过期");
         }
 
@@ -125,7 +118,7 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
             throw new ValidateCodeException(codeType + "验证码不匹配");
         }
 
-        sessionStrategy.removeAttribute(request, ValidateCodeProcessor.SESSION_KEY_PREFIX+codeType);
+        validateCodeRepository.remove(request, codeType);
 
     }
 }

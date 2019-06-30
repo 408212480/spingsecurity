@@ -29,7 +29,7 @@ public class SmsCodeAuthenticationToken extends AbstractAuthenticationToken {
     public SmsCodeAuthenticationToken(Collection<? extends GrantedAuthority> authorities, Object principal) {
         super(authorities);
         this.principal = principal;
-        this.setAuthenticated(true);
+        super.setAuthenticated(true);
     }
 
 
