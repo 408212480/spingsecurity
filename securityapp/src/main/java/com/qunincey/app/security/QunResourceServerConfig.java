@@ -63,7 +63,8 @@ public class QunResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,securityProperties.getBrowser().getLoginPage(),
-                        SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*","/auth/*",securityProperties.getBrowser().getSignUpUrl(),"/user/regist",SecurityConstants.DEFAULT_SESSION_INVALID_URL,securityProperties.getBrowser().getSignOutUrl())
+                        SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*","/auth/*",securityProperties.getBrowser().getSignUpUrl(),"/user/regist",SecurityConstants.DEFAULT_SESSION_INVALID_URL,securityProperties.getBrowser().getSignOutUrl(),
+                        SecurityConstants.DEFAULT_SOCIAL_USER_INFO_URL)
                     .permitAll()
                 .anyRequest()
                     .authenticated()

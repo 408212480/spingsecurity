@@ -1,4 +1,4 @@
-package com.qunincey.brower.security.support;
+package com.qunincey.security.core.support;
 
 import lombok.Data;
 

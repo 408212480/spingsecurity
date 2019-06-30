@@ -1,7 +1,7 @@
 package com.qunincey.brower.security.controller;
 
 import com.qunincey.security.core.support.SimpleResponse;
-import com.qunincey.brower.security.support.SocialUserInfo;
+import com.qunincey.security.core.support.SocialUserInfo;
 import com.qunincey.security.core.properties.SecurityProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
