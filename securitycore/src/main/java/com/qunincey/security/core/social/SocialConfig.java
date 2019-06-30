@@ -35,6 +35,9 @@ public class SocialConfig extends SocialConfigurerAdapter {
     @Autowired
     private SecurityProperties securityProperties;
 
+    @Autowired(required = false)
+    private SocialAuthenticationFilterPostProcessor socialAuthenticationFilterPostProcessor;
+
     @Override
     public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
         return new JdbcUsersConnectionRepository(dataSource,connectionFactoryLocator, Encryptors.noOpText());
@@ -44,6 +47,7 @@ public class SocialConfig extends SocialConfigurerAdapter {
     public SpringSocialConfigurer qunSocialSecurityConfig(){
         QunSpringSocialConfigurer qunSpringSocialConfigurer = new QunSpringSocialConfigurer(securityProperties.getSocial().getFilterProcessUrl());
         qunSpringSocialConfigurer.signupUrl(securityProperties.getBrowser().getSignUpUrl());
+        qunSpringSocialConfigurer.setSocialAuthenticationFilterPostProcessor(socialAuthenticationFilterPostProcessor);
         return qunSpringSocialConfigurer;
     }
 

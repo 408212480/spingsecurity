@@ -1,5 +1,6 @@
 package com.qunincey.app.security;
 
+import com.qunincey.app.security.authentication.openid.OpenIdAuthenticationSecurityConfig;
 import com.qunincey.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.qunincey.security.core.properties.SecurityConstants;
 import com.qunincey.security.core.properties.SecurityProperties;
@@ -41,6 +42,9 @@ public class QunResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     public SecurityProperties securityProperties;
 
+    @Autowired
+    private OpenIdAuthenticationSecurityConfig openIdAuthenticationSecurityConfig;
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
 
@@ -54,6 +58,8 @@ public class QunResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .apply(smsCodeAuthenticationSecurityConfig)
                 .and()
                 .apply(qunSocialSecurityConfig)
+                .and()
+                .apply(openIdAuthenticationSecurityConfig)
                 .and()
                 .authorizeRequests()
                 .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,securityProperties.getBrowser().getLoginPage(),
